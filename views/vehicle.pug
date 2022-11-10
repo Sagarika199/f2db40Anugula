@@ -2,10 +2,10 @@ extends layout
 
 block content
   h1= title
-  - var result = [{"VehicleName":"Volkswagen","VehicleType":"Car","VehicleCost":100000},{"VehicleName":"BMW","VehicleType":"Bus","VehicleCost":500000},{"VehicleName":"Volvo","VehicleType":"Truck","VehicleCost":600000}]
+  - var vehicleresult = results
   div.container-fluid
      div.row
-        each item,index in result
+        each item,index in vehicleresult
             div.col-sm-2(onclick=`buy(${index})`) Vehicle Name: #{item["VehicleName"]}  <br>  Vehicle Type: #{item["VehicleType"]} <br> Vehicle Cost: #{item["VehicleCost"]} 
   script.
       function buy(i){
