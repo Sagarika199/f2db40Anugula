@@ -25,7 +25,7 @@ exports.vehicle_view_all_Page = async function(req, res) {
     }   
 }; 
 
-// Handle Costume create on POST. 
+// Handle vehicle create on POST. 
 exports.vehicle_create_post = async function(req, res) { 
     console.log(req.body) 
     let document = new vehicle(); 
@@ -60,4 +60,37 @@ exports.vehicle_delete = function(req, res) {
 // Handle vehicle update form on PUT. 
 exports.vehicle_update_put = function(req, res) { 
     res.send('NOT IMPLEMENTED: vehicle update PUT' + req.params.id); 
+}; 
+
+
+// for a specific vehicle. 
+exports.vehicle_detail = async function(req, res) { 
+    console.log("detail"  + req.params.id) 
+    try { 
+        result = await vehicle.findById( req.params.id) 
+        res.send(result) 
+    } catch (error) { 
+        res.status(500) 
+        res.send(`{"error": document for id ${req.params.id} not found`); 
+    } 
+}; 
+
+//Handle vehicle update form on PUT. 
+exports.vehicle_update_put = async function(req, res) { 
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`) 
+    try { 
+        let toUpdate = await vehicle.findById( req.params.id) 
+        // Do updates of properties 
+        if(req.body.VehicleName) toUpdate.VehicleName = req.body.VehicleName; 
+        if(req.body.VehicleType) toUpdate.VehicleType = req.body.VehicleType; 
+        if(req.body.VehicleCost) toUpdate.VehicleCost = req.body.VehicleCost; 
+        let result = await toUpdate.save(); 
+        console.log("Sucess " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`); 
+    } 
 }; 
